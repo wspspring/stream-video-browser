@@ -1,0 +1,83 @@
+<html>
+  <head>
+    <title>目标检测系统</title>
+      <!-- 新 Bootstrap4 核心 CSS 文件 -->
+    <link rel="stylesheet" href="https://cdn.staticfile.org/twitter-bootstrap/4.1.0/css/bootstrap.min.css">
+    <!-- jQuery文件。务必在bootstrap.min.js 之前引入 -->
+    <script src="https://cdn.staticfile.org/jquery/3.2.1/jquery.min.js"></script>
+  </head>
+  <body>
+    <h2 style="margin-top:20px">目标检测系统</h2>
+    <h2>
+        <button type="button" class="btn btn-info" onclick="allViews()">全部视图</button>
+    </h2>
+    <div class="imgDiv" style="float: left">
+
+        <button class="viewButton" onclick="mainView('sideViewId')">
+            <h5>侧视图</h5>
+            <img id="sideViewId" src="{{ url_for('video_feed') }}" class="originalVideo">
+        </button>
+    </div>
+    <div class="imgDiv" style="float:right">
+
+        <button class="viewButton" onclick="mainView('downViewId')">
+            <h5 >俯视图</h5>
+            <img id="downViewId" src="{{ url_for('video_feed_right') }}"  class="originalVideo">
+        </button>
+    </div>
+  </body>
+</html>
+<script>
+    function mainView(param) {
+        console.log(param)
+        console.log(123)
+        {#将当前为选中的视图初始化为最小#}
+        if(param === 'sideViewId') {
+            document.getElementById('downViewId').previousElementSibling.setAttribute('class', 'minView')
+            document.getElementById('downViewId').setAttribute('class', 'minView')
+        }else if(param === 'downViewId') {
+            document.getElementById('sideViewId').previousElementSibling.setAttribute('class', 'minView')
+            document.getElementById('sideViewId').setAttribute('class', 'minView')
+        }
+        document.getElementById(param).parentElement.parentElement.style = 'text-align:center; width:100%'
+        document.getElementById(param).setAttribute('class', 'mainViewVideo')
+    }
+    function allViews() {
+        let allImages = document.getElementsByTagName('img')
+        console.log(allImages)
+        for (let i = 0; i < allImages.length; i++) {
+            allImages[i].setAttribute('class', 'originalVideo')
+            allImages[i].previousElementSibling.setAttribute('class', '')
+
+        }
+        allImages[0].parentElement.parentElement.style = 'float:left'
+        allImages[1].parentElement.parentElement.style = 'float:right'
+
+    }
+
+</script>
+<style>
+    h1, h2, h5 {
+        text-align: center;
+        background-color: white;
+    }
+    .viewButton {
+        border: none;
+        padding: 0px;
+    }
+    .viewButton:hover {
+        cursor: pointer;
+    }
+    .originalVideo {
+        width: 700px;
+        height: 500px;
+    }
+    .mainViewVideo {
+        width: 100%;
+        height: 100%;
+    }
+
+    .minView {
+        display: none;
+    }
+</style>
